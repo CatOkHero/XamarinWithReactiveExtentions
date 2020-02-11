@@ -1,6 +1,5 @@
-﻿using System;
+﻿using SocialMedia.XamarinForms.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace SocialMedia.XamarinForms
 {
@@ -10,7 +9,7 @@ namespace SocialMedia.XamarinForms
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MyTabbedPage();
         }
 
         protected override void OnStart()

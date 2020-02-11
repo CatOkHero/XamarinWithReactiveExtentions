@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rxui:ReactiveTabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                         x:TypeArguments="vm:MyTabbedViewModel"
+                         xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+                         xmlns:local="clr-namespace:SocialMedia.XamarinForms.Views.Tabs"
+                         xmlns:vm="clr-namespace:SocialMedia.XamarinForms.ViewModels"
+                         x:Class="SocialMedia.XamarinForms.Views.MyTabbedPage">
+    <local:FirstTab Title="Tab 1" x:Name="firstTab" />
+    <local:SecondTab Title="Tab 2" x:Name="secondTab" />
+</rxui:ReactiveTabbedPage>
