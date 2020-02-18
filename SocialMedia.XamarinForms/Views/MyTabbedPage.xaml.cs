@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 namespace SocialMedia.XamarinForms.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MyTabbedPage : ReactiveTabbedPage<MyTabbedViewModel>
+    public partial class MyTabbedPage : ReactiveTabbedPage<MyTabbedViewModel>, IViewFor<MyTabbedViewModel>
     {
         public MyTabbedPage()
         {

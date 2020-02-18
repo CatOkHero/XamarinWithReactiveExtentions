@@ -1,5 +1,4 @@
-﻿using SocialMedia.XamarinForms.Views;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace SocialMedia.XamarinForms
 {
@@ -9,7 +8,7 @@ namespace SocialMedia.XamarinForms
         {
             InitializeComponent();
 
-            MainPage = new MyTabbedPage();
+            MainPage = new AppBootstrapper().CreateMainPage();
         }
 
         protected override void OnStart()
