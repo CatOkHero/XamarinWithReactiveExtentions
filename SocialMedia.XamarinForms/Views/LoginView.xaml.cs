@@ -15,6 +15,8 @@ namespace SocialMedia.XamarinForms.Views
 
 			this.WhenActivated(disposables =>
 			{
+				this.Bind(ViewModel, vm => vm.UserName, v => v.username.Text);
+				this.Bind(ViewModel, vm => vm.Password, v => v.password.Text);
 				this.BindCommand(ViewModel, x => x.NavigateToMainPage, x => x.loginButton)
 					.DisposeWith(disposables);
 			});

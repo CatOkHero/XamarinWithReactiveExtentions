@@ -5,7 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="SocialMedia.XamarinForms.Views.LoginView">
-	<StackLayout>
+	<StackLayout VerticalOptions="CenterAndExpand">
+		<Entry x:Name="username" Keyboard="Plain" />
+		<Entry x:Name="password" IsPassword="True" />
 		<Button x:Name="loginButton" Text="Login" />
 	</StackLayout>
 </ContentPage>
