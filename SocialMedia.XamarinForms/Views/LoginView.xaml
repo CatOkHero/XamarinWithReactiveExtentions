@@ -3,9 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
              mc:Ignorable="d"
              x:Class="SocialMedia.XamarinForms.Views.LoginView">
 	<StackLayout VerticalOptions="CenterAndExpand">
+		<lottie:AnimationView x:Name="animationView"
+							  HeightRequest="200"
+							  WidthRequest="200"
+							  OnFinish="animationView_OnFinish"
+							  OnClick="animationView_OnClick"
+			Animation="colorfullloader.json" 
+			Loop="True" 
+			AutoPlay="True"
+			VerticalOptions="FillAndExpand" 
+			HorizontalOptions="FillAndExpand" />
 		<Entry x:Name="username" Keyboard="Plain" />
 		<Entry x:Name="password" IsPassword="True" />
 		<Button x:Name="loginButton" Text="Login" />

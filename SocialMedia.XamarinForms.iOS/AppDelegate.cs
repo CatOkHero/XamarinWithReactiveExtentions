@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
+﻿using Foundation;
+using Lottie.Forms.iOS.Renderers;
 using UIKit;
 
 namespace SocialMedia.XamarinForms.iOS
@@ -22,6 +19,7 @@ namespace SocialMedia.XamarinForms.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            AnimationViewRenderer.Init();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

@@ -8,8 +8,9 @@ namespace SocialMedia.XamarinForms.ViewModels
 	public class LoginViewModel : ReactiveObject, IRoutableViewModel
 	{
 		public string UrlPathSegment => "login";
-
 		public IScreen HostScreen { get; private set; }
+
+		public readonly int property;
 
 		public LoginViewModel(IScreen screen)
 		{
@@ -24,6 +25,8 @@ namespace SocialMedia.XamarinForms.ViewModels
 					username.Length > 3 &&
 					password.Length > 8)
 				.DistinctUntilChanged();
+
+			property = 1;
 				
 			NavigateToMainPage = ReactiveCommand.CreateFromObservable(() =>
 			{
