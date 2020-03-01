@@ -1,45 +1,59 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using ReactiveUI.Validation.Extensions;
+using ReactiveUI.Validation.Helpers;
+using SocialMedia.XamarinForms.Validators;
+using System;
 using System.Reactive;
-using System.Reactive.Linq;
 
 namespace SocialMedia.XamarinForms.ViewModels
 {
-	public class LoginViewModel : ReactiveObject, IRoutableViewModel
+	public class LoginViewModel : ReactiveValidationObject<LoginViewModel>, IRoutableViewModel
 	{
-		public string UrlPathSegment => "login";
+		public string UrlPathSegment => "Login Page";
 		public IScreen HostScreen { get; private set; }
 
-		public readonly int property;
+		public ReactiveCommand<Unit, IRoutableViewModel> NavigateToMainPage { get; set; }
+		public ValidationHelper NameRule { get; }
+		public ValidationHelper PasswordRule { get; }
+		public ValidationHelper ComplexRule { get; }
 
 		public LoginViewModel(IScreen screen)
 		{
 			HostScreen = screen;
 
-			var canNavigate = this.WhenAnyValue(
-				prop => prop.UserName,
-				prop => prop.Password,
-				(username, password) =>
-					!string.IsNullOrEmpty(username) &&
-					!string.IsNullOrEmpty(password) &&
-					username.Length > 3 &&
-					password.Length > 8)
-				.DistinctUntilChanged();
+			NameRule = this.ValidationRule(
+				viewModel => viewModel.UserName,
+				name => name.Length > 2,
+				"You must specify a valid name longer then 2 sybols.");
 
-			property = 1;
-				
+			PasswordRule = this.ValidationRule(
+				viewModel => viewModel.Password,
+				password => PasswordValidator.Validate(password),
+				"You must specify a valid password longer then 8 sybols with at least 1 digit, upper case, lower case and special characters.");
+
+			var nameAndPasswordRules = this
+				.WhenAnyValue(
+					x => x.UserName,
+					x => x.Password,
+					(name, password) => NameRule.IsValid && PasswordRule.IsValid);
+
+			ComplexRule = this.ValidationRule(
+				_ => nameAndPasswordRules,
+				(vm, state) => !state ? "Username and Password should be both valid!" : string.Empty);
+
+			var canNavigate = this.IsValid();
+
 			NavigateToMainPage = ReactiveCommand.CreateFromObservable(() =>
 			{
-				return HostScreen.Router.Navigate.Execute(new MyTabbedViewModel(HostScreen));
+				return HostScreen.Router.NavigateAndReset.Execute(new MyTabbedViewModel(HostScreen));
 			}, canNavigate);
 		}
 
-		public ReactiveCommand<Unit, IRoutableViewModel> NavigateToMainPage { get; set; }
+		[Reactive]
+		public string UserName { get; set; } = String.Empty;
 
 		[Reactive]
-		public string UserName { get; set; }
-
-		[Reactive]
-		public string Password { get; set; }
+		public string Password { get; set; } = String.Empty;
 	}
 }

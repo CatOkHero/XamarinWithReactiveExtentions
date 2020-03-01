@@ -9,13 +9,7 @@ namespace SocialMedia.XamarinForms.ViewModels
         public MyTabbedViewModel(IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-
-            //NavigateToFirstTab = ReactiveCommand.CreateFromObservable(
-            //    () => HostScreen.Router.Navigate.Execute(new MyTabbedViewModel())
-            //    .Select(_ => Unit.Default));
         }
-
-        //public ReactiveCommand<Unit, Unit> NavigateToFirstTab { get; }
 
         public string UrlPathSegment => "Tabbed Page";
 
