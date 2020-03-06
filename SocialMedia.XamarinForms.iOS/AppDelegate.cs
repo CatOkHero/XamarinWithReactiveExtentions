@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using FFImageLoading.Svg.Forms;
+using Foundation;
 using Lottie.Forms.iOS.Renderers;
 using UIKit;
 
@@ -20,6 +21,7 @@ namespace SocialMedia.XamarinForms.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             AnimationViewRenderer.Init();
+            SvgCachedImage.Init();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

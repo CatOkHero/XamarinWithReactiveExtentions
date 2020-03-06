@@ -15,8 +15,8 @@ namespace SocialMedia.XamarinForms.ViewModels
 
         public IScreen HostScreen { get; set; }
 
-        public FirstTabViewModel Child1 => new FirstTabViewModel();
+        public MenuTabViewModel Child1 => new MenuTabViewModel();
 
-        public SecondTabViewModel Child2 => new SecondTabViewModel();
+        public ChatTabViewModel Child2 => new ChatTabViewModel();
     }
 }

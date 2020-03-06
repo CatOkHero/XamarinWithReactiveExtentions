@@ -21,7 +21,7 @@ namespace SocialMedia.XamarinForms
             dependencyResolver.Register(() => new LoginView(), typeof(IViewFor<LoginViewModel>));
             dependencyResolver.Register(() => new MyTabbedPage(), typeof(IViewFor<MyTabbedViewModel>));
 
-            Router.Navigate.Execute(new LoginViewModel(this));
+            Router.Navigate.Execute(new MyTabbedViewModel(this));
         }
 
         public Page CreateMainPage()

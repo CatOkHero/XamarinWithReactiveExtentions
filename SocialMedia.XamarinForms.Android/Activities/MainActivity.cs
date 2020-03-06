@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using FFImageLoading.Svg.Forms;
 using Xamarin.Essentials;
 
 namespace SocialMedia.XamarinForms.Droid
@@ -18,7 +19,8 @@ namespace SocialMedia.XamarinForms.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-            
+
+            SvgCachedImage.Init();
             Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

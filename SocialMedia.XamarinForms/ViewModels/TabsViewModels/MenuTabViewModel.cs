@@ -2,7 +2,7 @@
 
 namespace SocialMedia.XamarinForms.ViewModels.TabsViewModels
 {
-    public class FirstTabViewModel : ReactiveObject
+    public class MenuTabViewModel : ReactiveObject
     {
         public string Test => "Hello";
     }

@@ -6,6 +6,6 @@
                          xmlns:local="clr-namespace:SocialMedia.XamarinForms.Views.Tabs"
                          xmlns:vm="clr-namespace:SocialMedia.XamarinForms.ViewModels"
                          x:Class="SocialMedia.XamarinForms.Views.MyTabbedPage">
-    <local:FirstTab Title="Tab 1" x:Name="firstTab" />
-    <local:SecondTab Title="Tab 2" x:Name="secondTab" />
+    <local:MenuTab Title="Menu" x:Name="firstTab" />
+    <local:ChatTab Title="Chat" x:Name="secondTab" />
 </rxui:ReactiveTabbedPage>

@@ -5,9 +5,9 @@ using SocialMedia.XamarinForms.ViewModels.TabsViewModels;
 
 namespace SocialMedia.XamarinForms.Views.Tabs
 {
-    public partial class FirstTab : ReactiveContentPage<FirstTabViewModel>
+    public partial class MenuTab : ReactiveContentPage<MenuTabViewModel>
     {
-        public FirstTab()
+        public MenuTab()
         {
             InitializeComponent();
 
