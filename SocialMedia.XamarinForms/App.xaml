@@ -4,7 +4,11 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:converters="clr-namespace:SocialMedia.XamarinForms.Converters"
              x:Class="SocialMedia.XamarinForms.App">
     <Application.Resources>
+        <ResourceDictionary>
+            <converters:BoolInvertedConverter x:Key="BoolInvertedConverter" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

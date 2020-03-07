@@ -2,6 +2,7 @@
 using Foundation;
 using Lottie.Forms.iOS.Renderers;
 using UIKit;
+using Xamarin.Forms;
 
 namespace SocialMedia.XamarinForms.iOS
 {
@@ -22,7 +23,9 @@ namespace SocialMedia.XamarinForms.iOS
         {
             AnimationViewRenderer.Init();
             SvgCachedImage.Init();
-            global::Xamarin.Forms.Forms.Init();
+            Forms.SetFlags("StateTriggers_Experimental");
+            Forms.Init();
+            FormsMaterial.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

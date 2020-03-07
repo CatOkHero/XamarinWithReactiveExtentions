@@ -2,7 +2,10 @@
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
+using SocialMedia.XamarinForms.DbAccess.DbModels;
+using SocialMedia.XamarinForms.DbAccess.Repository;
 using SocialMedia.XamarinForms.Validators;
+using Splat;
 using System;
 using System.Reactive;
 
@@ -13,7 +16,9 @@ namespace SocialMedia.XamarinForms.ViewModels
 		public string UrlPathSegment => "Login Page";
 		public IScreen HostScreen { get; private set; }
 
-		public ReactiveCommand<Unit, IRoutableViewModel> NavigateToMainPage { get; set; }
+        private readonly IRepository repository;
+
+        public ReactiveCommand<Unit, IRoutableViewModel> NavigateToMainPage { get; set; }
 		public ValidationHelper NameRule { get; }
 		public ValidationHelper PasswordRule { get; }
 		public ValidationHelper ComplexRule { get; }
@@ -21,6 +26,7 @@ namespace SocialMedia.XamarinForms.ViewModels
 		public LoginViewModel(IScreen screen)
 		{
 			HostScreen = screen;
+			repository = Locator.Current.GetService<IRepository>();
 
 			NameRule = this.ValidationRule(
 				viewModel => viewModel.UserName,
@@ -46,6 +52,13 @@ namespace SocialMedia.XamarinForms.ViewModels
 
 			NavigateToMainPage = ReactiveCommand.CreateFromObservable(() =>
 			{
+				repository.Save(new UserDbModel
+				{
+                    Id = Guid.NewGuid().ToString(),
+                    Password = Password,
+                    UserName = UserName,
+				});
+
 				return HostScreen.Router.NavigateAndReset.Execute(new MyTabbedViewModel(HostScreen));
 			}, canNavigate);
 		}

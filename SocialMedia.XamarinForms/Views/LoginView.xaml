@@ -7,28 +7,58 @@
              mc:Ignorable="d"
 			 Padding="20"
              x:Class="SocialMedia.XamarinForms.Views.LoginView">
-	<StackLayout VerticalOptions="CenterAndExpand">
+    <ContentPage.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="VisualStateManager.VisualStateGroups" >
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="LabelValidation">
+                        <VisualState x:Name="InValid">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor"
+                                        Value="LightCoral" />
+                                <Setter Property="PlaceholderColor"
+                                        Value="LightCoral" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Valid">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor"
+                                        Value="Black" />
+                                <Setter Property="PlaceholderColor"
+                                        Value="Black" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+	<StackLayout VerticalOptions="CenterAndExpand" x:Name="stackLayout">
 		<lottie:AnimationView x:Name="animationView"
 							  HeightRequest="200"
 							  WidthRequest="200"
-							  OnFinish="animationView_OnFinish"
-							  OnClick="animationView_OnClick"
 			Animation="colorfullloader.json" 
 			Loop="True" 
 			AutoPlay="True"
 			VerticalOptions="Fill" 
 			HorizontalOptions="Fill" />
 
-		<Label x:Name="complexRuleErrors"/>
+		<!--<Label x:Name="complexRuleErrors" PropertyChanged="ComplexErrors_PropertyChanged" />-->
 		
-		<Label Text="Username or email" />
-		<Entry x:Name="username" Keyboard="Plain" />
-		<Label x:Name="usernameErrors" />
+		<Entry x:Name="username"
+            Keyboard="Plain"
+            Visual="Material"
+            Placeholder="Username or email" />
+		<Label x:Name="usernameErrors" PropertyChanged="UserNameErrors_PropertyChanged" />
 		
-		<Label Text="Password" />
-		<Entry x:Name="password" IsPassword="True" />
-		<Label x:Name="passwordErrors" />
+		<Entry x:Name="password"
+            IsPassword="True"
+            Visual="Material"
+            Placeholder="Password" />
+		<Label x:Name="passwordErrors" PropertyChanged="PasswordErrors_PropertyChanged" />
 		
-		<Button x:Name="loginButton" Text="Login" />
+		<Button x:Name="loginButton"
+            Text="Login"
+            Visual="Material" />
 	</StackLayout>
 </ContentPage>

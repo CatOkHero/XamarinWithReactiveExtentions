@@ -30,6 +30,7 @@
     <PackageReference Include="ReactiveUI" Version="11.2.1" />
     <PackageReference Include="ReactiveUI.Fody" Version="11.2.1" />
     <PackageReference Include="ReactiveUI.XamForms" Version="11.2.1" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.5.0.356" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,5 +58,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using ReactiveUI;
 using ReactiveUI.XamForms;
+using SocialMedia.XamarinForms.DbAccess.Repository;
 using SocialMedia.XamarinForms.ViewModels;
 using SocialMedia.XamarinForms.Views;
 using Splat;
@@ -18,10 +19,11 @@ namespace SocialMedia.XamarinForms
 
             dependencyResolver = dependencyResolver ?? Locator.CurrentMutable;
             dependencyResolver.RegisterConstant(this, typeof(IScreen));
+            dependencyResolver.RegisterLazySingleton(() => new Repository(), typeof(IRepository));
             dependencyResolver.Register(() => new LoginView(), typeof(IViewFor<LoginViewModel>));
             dependencyResolver.Register(() => new MyTabbedPage(), typeof(IViewFor<MyTabbedViewModel>));
 
-            Router.Navigate.Execute(new MyTabbedViewModel(this));
+            Router.Navigate.Execute(new LoginViewModel(this));
         }
 
         public Page CreateMainPage()

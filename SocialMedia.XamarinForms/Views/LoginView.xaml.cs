@@ -1,13 +1,13 @@
-﻿using ReactiveUI;
+﻿using System.Reactive.Disposables;
+using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
 using SocialMedia.XamarinForms.ViewModels;
-using System.Reactive.Disposables;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace SocialMedia.XamarinForms.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LoginView : ContentPage, IViewFor<LoginViewModel>
 	{
 		public LoginView()
@@ -19,16 +19,24 @@ namespace SocialMedia.XamarinForms.Views
 			{
 				this.Bind(ViewModel, vm => vm.UserName, v => v.username.Text)
 					.DisposeWith(disposables);
+
+				//this.BindValidationEx(ViewModel, vm => vm.NameRule.IsValid, v => v.usernameErrors.IsVisible)
+				//	.DisposeWith(disposables);
 				this.BindValidation(ViewModel, vm => vm.NameRule, v => v.usernameErrors.Text)
 					.DisposeWith(disposables);
 
 				this.Bind(ViewModel, vm => vm.Password, v => v.password.Text)
 					.DisposeWith(disposables);
+
+				//this.BindValidationEx(ViewModel, vm => vm.PasswordRule.IsValid, v => v.passwordErrors.IsVisible)
+				//	.DisposeWith(disposables);
 				this.BindValidation(ViewModel, vm => vm.PasswordRule, v => v.passwordErrors.Text)
 					.DisposeWith(disposables);
 
-				this.BindValidation(ViewModel, vm => vm.ComplexRule, v => v.complexRuleErrors.Text)
-					.DisposeWith(disposables);
+				//this.BindValidationEx(ViewModel, vm => vm.ComplexRule.IsValid, v => v.complexRuleErrors.IsVisible)
+				//	.DisposeWith(disposables);
+				//this.BindValidation(ViewModel, vm => vm.ComplexRule, v => v.complexRuleErrors.Text)
+				//	.DisposeWith(disposables);
 
 				this.BindCommand(ViewModel, x => x.NavigateToMainPage, x => x.loginButton)
 					.DisposeWith(disposables);
@@ -42,14 +50,48 @@ namespace SocialMedia.XamarinForms.Views
 			set => ViewModel = (LoginViewModel)value; 
 		}
 
-		private void animationView_OnClick(object sender, System.EventArgs e)
-		{
+        void PasswordErrors_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+			var label = (Label)sender;
+            if(e.PropertyName == "Text" && !string.IsNullOrEmpty(label.Text))
+            {
+				VisualStateManager.GoToState(password, "InValid");
+            }
 
+			if (e.PropertyName == "Text" && string.IsNullOrEmpty(label.Text))
+			{
+				VisualStateManager.GoToState(password, "Valid");
+			}
 		}
 
-		private void animationView_OnFinish(object sender, System.EventArgs e)
+		void UserNameErrors_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			var label = (Label)sender;
+			if (e.PropertyName == "Text" && !string.IsNullOrEmpty(label.Text))
+			{
+				VisualStateManager.GoToState(username, "InValid");
+			}
 
+			if (e.PropertyName == "Text" && string.IsNullOrEmpty(label.Text))
+			{
+				VisualStateManager.GoToState(username, "Valid");
+			}
+		}
+
+		void ComplexErrors_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			var label = (Label)sender;
+			if (e.PropertyName == "Text" && !string.IsNullOrEmpty(label.Text))
+			{
+				VisualStateManager.GoToState(password, "InValid");
+				VisualStateManager.GoToState(username, "InValid");
+			}
+
+			if (e.PropertyName == "Text" && string.IsNullOrEmpty(label.Text))
+			{
+				VisualStateManager.GoToState(password, "Valid");
+				VisualStateManager.GoToState(username, "Valid");
+			}
 		}
 	}
 }
