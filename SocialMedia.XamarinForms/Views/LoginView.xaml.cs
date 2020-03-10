@@ -17,28 +17,25 @@ namespace SocialMedia.XamarinForms.Views
 			animationView.PlayFrameSegment(50, (Device.RuntimePlatform != Device.Tizen) ? 1 : 100);
 			this.WhenActivated(disposables =>
 			{
-				this.Bind(ViewModel, vm => vm.UserName, v => v.username.Text)
+				this.Bind(ViewModel,
+                        vm => vm.UserName,
+                        v => v.username.Text,
+					    username.Events().TextChanged)
 					.DisposeWith(disposables);
 
-				//this.BindValidationEx(ViewModel, vm => vm.NameRule.IsValid, v => v.usernameErrors.IsVisible)
-				//	.DisposeWith(disposables);
-				this.BindValidation(ViewModel, vm => vm.NameRule, v => v.usernameErrors.Text)
+                this.BindValidation(ViewModel, vm => vm.NameRule, v => v.usernameErrors.Text)
+                    .DisposeWith(disposables);
+
+                this.Bind(ViewModel,
+                        vm => vm.Password,
+                        v => v.password.Text,
+						password.Events().TextChanged)
 					.DisposeWith(disposables);
 
-				this.Bind(ViewModel, vm => vm.Password, v => v.password.Text)
-					.DisposeWith(disposables);
-
-				//this.BindValidationEx(ViewModel, vm => vm.PasswordRule.IsValid, v => v.passwordErrors.IsVisible)
-				//	.DisposeWith(disposables);
 				this.BindValidation(ViewModel, vm => vm.PasswordRule, v => v.passwordErrors.Text)
-					.DisposeWith(disposables);
+                    .DisposeWith(disposables);
 
-				//this.BindValidationEx(ViewModel, vm => vm.ComplexRule.IsValid, v => v.complexRuleErrors.IsVisible)
-				//	.DisposeWith(disposables);
-				//this.BindValidation(ViewModel, vm => vm.ComplexRule, v => v.complexRuleErrors.Text)
-				//	.DisposeWith(disposables);
-
-				this.BindCommand(ViewModel, x => x.NavigateToMainPage, x => x.loginButton)
+                this.BindCommand(ViewModel, x => x.NavigateToMainPage, x => x.loginButton)
 					.DisposeWith(disposables);
 			});
 		}
@@ -50,7 +47,7 @@ namespace SocialMedia.XamarinForms.Views
 			set => ViewModel = (LoginViewModel)value; 
 		}
 
-        void PasswordErrors_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void PasswordErrors_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
 			var label = (Label)sender;
             if(e.PropertyName == "Text" && !string.IsNullOrEmpty(label.Text))
@@ -64,7 +61,7 @@ namespace SocialMedia.XamarinForms.Views
 			}
 		}
 
-		void UserNameErrors_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void UserNameErrors_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			var label = (Label)sender;
 			if (e.PropertyName == "Text" && !string.IsNullOrEmpty(label.Text))
@@ -74,22 +71,6 @@ namespace SocialMedia.XamarinForms.Views
 
 			if (e.PropertyName == "Text" && string.IsNullOrEmpty(label.Text))
 			{
-				VisualStateManager.GoToState(username, "Valid");
-			}
-		}
-
-		void ComplexErrors_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			var label = (Label)sender;
-			if (e.PropertyName == "Text" && !string.IsNullOrEmpty(label.Text))
-			{
-				VisualStateManager.GoToState(password, "InValid");
-				VisualStateManager.GoToState(username, "InValid");
-			}
-
-			if (e.PropertyName == "Text" && string.IsNullOrEmpty(label.Text))
-			{
-				VisualStateManager.GoToState(password, "Valid");
 				VisualStateManager.GoToState(username, "Valid");
 			}
 		}

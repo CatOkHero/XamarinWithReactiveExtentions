@@ -42,14 +42,12 @@
 			AutoPlay="True"
 			VerticalOptions="Fill" 
 			HorizontalOptions="Fill" />
-
-		<!--<Label x:Name="complexRuleErrors" PropertyChanged="ComplexErrors_PropertyChanged" />-->
 		
 		<Entry x:Name="username"
             Keyboard="Plain"
             Visual="Material"
             Placeholder="Username or email" />
-		<Label x:Name="usernameErrors" PropertyChanged="UserNameErrors_PropertyChanged" />
+		<Label x:Name="usernameErrors" PropertyChanged="UserNameErrors_PropertyChanged"/>
 		
 		<Entry x:Name="password"
             IsPassword="True"

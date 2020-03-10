@@ -17,9 +17,9 @@ namespace SocialMedia.XamarinForms.ViewModels
 		public string UrlPathSegment => "Login Page";
 		public IScreen HostScreen { get; private set; }
 
-        private readonly IRepository repository;
+		private readonly IRepository repository;
 
-        public ReactiveCommand<Unit, IRoutableViewModel> NavigateToMainPage { get; set; }
+		public ReactiveCommand<Unit, IRoutableViewModel> NavigateToMainPage { get; set; }
 		public ValidationHelper NameRule { get; }
 		public ValidationHelper PasswordRule { get; }
 		public ValidationHelper ComplexRule { get; }
@@ -29,30 +29,38 @@ namespace SocialMedia.XamarinForms.ViewModels
 			HostScreen = screen;
 			repository = Locator.Current.GetService<IRepository>();
 
-			NameRule = this.ValidationRule(
-				viewModel => viewModel.UserName,
-				name => name.Length > 2,
-				"You must specify a valid name longer then 2 sybols.");
+			var name = this
+				.WhenAnyValue(x => x.UserName)
+				.Select(x => x == null || x?.Length > 2);
 
-			PasswordRule = this.ValidationRule(
-				viewModel => viewModel.Password,
-				password => PasswordValidator.Validate(password),
-				"You must specify a valid password longer then 8 sybols with at least 1 digit, upper case, lower case and special characters.");
+			var password = this
+				.WhenAnyValue(x => x.Password)
+				.Select(x => x == null || PasswordValidator.Validate(x));
 
 			var nameAndPasswordRules = this
 				.WhenAnyValue(
 					x => x.UserName,
-					x => x.Password,
-					(name, password) => PasswordValidator.Validate(password) && name.Length > 2)
-                .DistinctUntilChanged();
+					x => x.Password)
+				.DefaultIfEmpty()
+				.DistinctUntilChanged()
+				.SkipWhile(item => !string.IsNullOrWhiteSpace(item.Item1) && !string.IsNullOrWhiteSpace(item.Item2))
+				.Select(prop1 =>
+							!string.IsNullOrEmpty(prop1.Item1)
+							&& this.NameRule.IsValid
+							&& !string.IsNullOrEmpty(prop1.Item2)
+							&& this.PasswordRule.IsValid);
+
+			NameRule = this.ValidationRule(
+				_ => name,
+				(vm, state) => !state ? "You must specify a valid name longer then 2 sybols." : string.Empty);
+
+			PasswordRule = this.ValidationRule(
+				_ => password,
+				(vm, state) => !state ? "You must specify a valid password longer then 8 sybols with at least 1 digit, upper case, lower case and special characters." : string.Empty);
 
 			ComplexRule = this.ValidationRule(
 				_ => nameAndPasswordRules,
 				(vm, state) => !state ? "Username and Password should be both valid!" : string.Empty);
-
-			var canNavigate = this
-                .IsValid()
-				.DistinctUntilChanged();
 
 			NavigateToMainPage = ReactiveCommand.CreateFromObservable(() =>
 			{
@@ -64,13 +72,13 @@ namespace SocialMedia.XamarinForms.ViewModels
 				});
 
 				return HostScreen.Router.NavigateAndReset.Execute(new MyTabbedViewModel(HostScreen));
-			}, canNavigate);
+			}, ComplexRule.WhenAnyValue(v => v.IsValid));
 		}
 
 		[Reactive]
-		public string UserName { get; set; } = String.Empty;
+		public string UserName { get; set; } = null;
 
 		[Reactive]
-		public string Password { get; set; } = String.Empty;
+		public string Password { get; set; } = null;
 	}
 }

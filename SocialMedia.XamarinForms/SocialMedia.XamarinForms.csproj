@@ -31,6 +31,7 @@
     <PackageReference Include="ReactiveUI.Fody" Version="11.2.1" />
     <PackageReference Include="ReactiveUI.XamForms" Version="11.2.1" />
     <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.5.0.356" />
+    <PackageReference Include="ReactiveUI.Events.XamForms" Version="11.2.3" />
   </ItemGroup>
 
   <ItemGroup>
