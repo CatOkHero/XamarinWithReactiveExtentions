@@ -8,6 +8,7 @@ using SocialMedia.XamarinForms.Validators;
 using Splat;
 using System;
 using System.Reactive;
+using System.Reactive.Linq;
 
 namespace SocialMedia.XamarinForms.ViewModels
 {
@@ -42,13 +43,16 @@ namespace SocialMedia.XamarinForms.ViewModels
 				.WhenAnyValue(
 					x => x.UserName,
 					x => x.Password,
-					(name, password) => NameRule.IsValid && PasswordRule.IsValid);
+					(name, password) => PasswordValidator.Validate(password) && name.Length > 2)
+                .DistinctUntilChanged();
 
 			ComplexRule = this.ValidationRule(
 				_ => nameAndPasswordRules,
 				(vm, state) => !state ? "Username and Password should be both valid!" : string.Empty);
 
-			var canNavigate = this.IsValid();
+			var canNavigate = this
+                .IsValid()
+				.DistinctUntilChanged();
 
 			NavigateToMainPage = ReactiveCommand.CreateFromObservable(() =>
 			{
