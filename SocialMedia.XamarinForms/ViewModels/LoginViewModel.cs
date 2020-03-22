@@ -62,17 +62,18 @@ namespace SocialMedia.XamarinForms.ViewModels
 				_ => nameAndPasswordRules,
 				(vm, state) => !state ? "Username and Password should be both valid!" : string.Empty);
 
-			NavigateToMainPage = ReactiveCommand.CreateFromObservable(() =>
-			{
-				repository.Save(new UserDbModel
+			NavigateToMainPage = ReactiveCommand
+				.CreateFromObservable(() =>
 				{
-                    Id = Guid.NewGuid().ToString(),
-                    Password = Password,
-                    UserName = UserName,
-				});
+					//repository.Save(new UserDbModel
+					//{
+					//	Id = Guid.NewGuid().ToString(),
+					//	Password = Password,
+					//	UserName = UserName,
+					//});
 
-				return HostScreen.Router.NavigateAndReset.Execute(new MyTabbedViewModel(HostScreen));
-			}, ComplexRule.WhenAnyValue(v => v.IsValid));
+					return HostScreen.Router.NavigateAndReset.Execute(new MyTabbedViewModel(HostScreen));
+				}, ComplexRule.WhenAnyValue(v => v.IsValid));
 		}
 
 		[Reactive]

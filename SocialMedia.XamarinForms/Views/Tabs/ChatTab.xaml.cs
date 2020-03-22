@@ -1,7 +1,7 @@
-﻿using System.Reactive.Disposables;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.XamForms;
 using SocialMedia.XamarinForms.ViewModels.TabsViewModels;
+using System.Reactive.Disposables;
 
 namespace SocialMedia.XamarinForms.Views.Tabs
 {
@@ -11,7 +11,11 @@ namespace SocialMedia.XamarinForms.Views.Tabs
         {
             InitializeComponent();
 
- 
+            this.WhenActivated(disposabel =>
+            {
+                this.OneWayBind(ViewModel, vm => vm.MockDataModels, v => v.collection.ItemsSource)
+                    .DisposeWith(disposabel);
+            });
         }
     }
 }
