@@ -16,36 +16,39 @@
 		</CollectionView.EmptyView>
 		<CollectionView.ItemTemplate>
 			<DataTemplate>
-				<Frame HasShadow="True"
-					   Margin="10"
-					   BorderColor="Black">
-					<Grid Padding="10">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="5*" />
-							<RowDefinition Height="15*" />
-							<RowDefinition Height="2*" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="0.4*" />
-						</Grid.ColumnDefinitions>
-						<StackLayout Grid.Column="0" 
+				<StackLayout Padding="10">
+						<Frame HasShadow="True"
+							VerticalOptions="Fill"
+							HorizontalOptions="Fill"
+							BorderColor="Black">
+							<Grid Padding="10">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="5*" />
+									<RowDefinition Height="15*" />
+									<RowDefinition Height="2*" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="0.4*" />
+								</Grid.ColumnDefinitions>
+								<StackLayout Grid.Column="0" 
 								 Grid.Row="0" 
 								 Orientation="Horizontal">
-							<Label Text="{Binding FirstName}" />
-							<Label Text="{Binding LastName}" />
-						</StackLayout>
-						<Label Text="{Binding Message}"
+									<Label Text="{Binding FirstName}" />
+									<Label Text="{Binding LastName}" />
+								</StackLayout>
+								<Label Text="{Binding Message}"
 						   Grid.ColumnSpan="2" 
 						   Grid.Row="1" />
-						<Label Text="{Binding DateTimeSend}"
+								<Label Text="{Binding DateTimeSend}"
 							   VerticalOptions="EndAndExpand"
 							   HorizontalOptions="EndAndExpand"
 						   Grid.Column="1" 
 						   Grid.Row="1"
 						   Grid.RowSpan="2" />
-					</Grid>
-				</Frame>
+							</Grid>
+						</Frame>
+					</StackLayout>
 			</DataTemplate>
 		</CollectionView.ItemTemplate>
 	</CollectionView>
