@@ -1,6 +1,7 @@
 ﻿using System.Reactive.Disposables;
 using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
+using ReactiveUI.XamForms;
 using SocialMedia.XamarinForms.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -8,7 +9,7 @@ using Xamarin.Forms.Xaml;
 namespace SocialMedia.XamarinForms.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LoginView : ContentPage, IViewFor<LoginViewModel>
+	public partial class LoginView : ReactiveContentPage<LoginViewModel>, IViewFor<LoginViewModel>
 	{
 		public LoginView()
 		{
@@ -23,7 +24,27 @@ namespace SocialMedia.XamarinForms.Views
 					    username.Events().TextChanged)
 					.DisposeWith(disposables);
 
-                this.BindValidation(ViewModel, vm => vm.NameRule, v => v.usernameErrors.Text)
+				this.Bind(ViewModel,
+						vm => vm.IsProcessing,
+						v => v.processingAnimationView.IsVisible)
+					.DisposeWith(disposables);
+
+				this.Bind(ViewModel,
+						vm => vm.IsProcessing,
+						v => v.processingAnimationView.IsPlaying)
+					.DisposeWith(disposables);
+
+				this.Bind(ViewModel,
+						vm => vm.IsFailed,
+						v => v.failedAnimationView.IsVisible)
+					.DisposeWith(disposables);
+
+				this.Bind(ViewModel,
+						vm => vm.IsFailed,
+						v => v.failedAnimationView.IsPlaying)
+					.DisposeWith(disposables);
+
+				this.BindValidation(ViewModel, vm => vm.NameRule, v => v.usernameErrors.Text)
                     .DisposeWith(disposables);
 
                 this.Bind(ViewModel,
@@ -38,13 +59,6 @@ namespace SocialMedia.XamarinForms.Views
                 this.BindCommand(ViewModel, x => x.NavigateToMainPage, x => x.loginButton)
 					.DisposeWith(disposables);
 			});
-		}
-
-		public LoginViewModel ViewModel { get; set; }
-		object IViewFor.ViewModel 
-		{
-			get => ViewModel; 
-			set => ViewModel = (LoginViewModel)value; 
 		}
 
         void PasswordErrors_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -74,5 +88,10 @@ namespace SocialMedia.XamarinForms.Views
 				VisualStateManager.GoToState(username, "Valid");
 			}
 		}
-	}
+
+        void failedAnimationView_OnFinish(System.Object sender, System.EventArgs e)
+        {
+			failedAnimationView.IsVisible = false;
+        }
+    }
 }

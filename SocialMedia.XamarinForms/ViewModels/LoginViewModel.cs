@@ -1,25 +1,25 @@
-﻿using ReactiveUI;
+﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
-using SocialMedia.XamarinForms.DbAccess.DbModels;
 using SocialMedia.XamarinForms.DbAccess.Repository;
+using SocialMedia.XamarinForms.Services;
 using SocialMedia.XamarinForms.Validators;
 using Splat;
-using System;
-using System.Reactive;
-using System.Reactive.Linq;
 
 namespace SocialMedia.XamarinForms.ViewModels
 {
-	public class LoginViewModel : ReactiveValidationObject<LoginViewModel>, IRoutableViewModel
+    public class LoginViewModel : ReactiveValidationObject<LoginViewModel>, IRoutableViewModel
 	{
-		public string UrlPathSegment => "Login Page";
+		public string UrlPathSegment => string.Empty;
 		public IScreen HostScreen { get; private set; }
 
 		private readonly IRepository repository;
 
-		public ReactiveCommand<Unit, IRoutableViewModel> NavigateToMainPage { get; set; }
+		public ReactiveCommand<Unit, bool> NavigateToMainPage { get; set; }
 		public ValidationHelper NameRule { get; }
 		public ValidationHelper PasswordRule { get; }
 		public ValidationHelper ComplexRule { get; }
@@ -31,10 +31,12 @@ namespace SocialMedia.XamarinForms.ViewModels
 
 			var name = this
 				.WhenAnyValue(x => x.UserName)
+				.SkipWhile(x => string.IsNullOrEmpty(x) || x.Length < 3)
 				.Select(x => x == null || x?.Length > 2);
 
 			var password = this
 				.WhenAnyValue(x => x.Password)
+				.SkipWhile(x => string.IsNullOrEmpty(x) || x.Length < 5)
 				.Select(x => x == null || PasswordValidator.Validate(x));
 
 			var nameAndPasswordRules = this
@@ -63,18 +65,40 @@ namespace SocialMedia.XamarinForms.ViewModels
 				(vm, state) => !state ? "Username and Password should be both valid!" : string.Empty);
 
 			NavigateToMainPage = ReactiveCommand
-				.CreateFromObservable(() =>
+				.CreateFromTask(() =>
 				{
-					//repository.Save(new UserDbModel
-					//{
-					//	Id = Guid.NewGuid().ToString(),
-					//	Password = Password,
-					//	UserName = UserName,
-					//});
-
-					return HostScreen.Router.NavigateAndReset.Execute(new MyTabbedViewModel(HostScreen));
+					IsProcessing = true;
+					return MockRefitHttpService.IsUserValid(UserName, Password);
 				}, ComplexRule.WhenAnyValue(v => v.IsValid));
+
+			NavigateToMainPage
+				.Where(res => res)
+				.SelectMany(res => HostScreen.Router.NavigateAndReset.Execute(new MyTabbedViewModel(HostScreen)))
+				.Subscribe(
+					ok =>
+					{
+						IsProcessing = false;
+					},
+					error =>
+					{
+						IsProcessing = false;
+						IsFailed = true;
+					});
+
+			NavigateToMainPage
+				.Where(res => !res)
+				.Subscribe(error =>
+				{
+					IsProcessing = false;
+					IsFailed = true;
+				});
 		}
+
+		[Reactive]
+		public bool IsProcessing { get; set; } = false;
+
+		[Reactive]
+		public bool IsFailed { get; set; } = false;
 
 		[Reactive]
 		public string UserName { get; set; } = null;

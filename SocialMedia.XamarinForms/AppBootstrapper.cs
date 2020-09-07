@@ -6,10 +6,12 @@ using SocialMedia.XamarinForms.Views;
 using Splat;
 using System;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace SocialMedia.XamarinForms
 {
-	public class AppBootstrapper : ReactiveObject, IScreen
+    public class AppBootstrapper : ReactiveObject, IScreen
 	{
 		public RoutingState Router { get; private set; }
         
@@ -26,9 +28,30 @@ namespace SocialMedia.XamarinForms
             Router.Navigate.Execute(new LoginViewModel(this));
         }
 
-        public Page CreateMainPage()
+        public Xamarin.Forms.Page CreateMainPage()
         {
-            return new RoutedViewHost();
+            return new CustomRoutedViewHost();
+        }
+    }
+
+    public class CustomRoutedViewHost : RoutedViewHost
+    {
+        public CustomRoutedViewHost()
+        {
+            On<iOS>().SetIsNavigationBarTranslucent(true);
+            BackgroundColor = Color.Transparent;
+            BarBackgroundColor = Color.Transparent;
+            BarTextColor = Color.Black;
+        }
+
+        protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
+        {
+            return base.OnMeasure(widthConstraint, 0);
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, 0);
         }
     }
 }

@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms" 
-             mc:Ignorable="d"
-			 Padding="20"
-             x:Class="SocialMedia.XamarinForms.Views.LoginView">
+<rxui:ReactiveContentPage
+    x:Class="SocialMedia.XamarinForms.Views.LoginView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+    xmlns:vm="clr-namespace:SocialMedia.XamarinForms.ViewModels"
+    Padding="20"
+    x:TypeArguments="vm:LoginViewModel"
+    mc:Ignorable="d">
     <ContentPage.Resources>
         <Style TargetType="Entry">
-            <Setter Property="VisualStateManager.VisualStateGroups" >
+            <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup x:Name="LabelValidation">
                         <VisualState x:Name="InValid">
                             <VisualState.Setters>
-                                <Setter Property="TextColor"
-                                        Value="LightCoral" />
-                                <Setter Property="PlaceholderColor"
-                                        Value="LightCoral" />
+                                <Setter Property="TextColor" Value="LightCoral" />
+                                <Setter Property="PlaceholderColor" Value="LightCoral" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="Valid">
                             <VisualState.Setters>
-                                <Setter Property="TextColor"
-                                        Value="Black" />
-                                <Setter Property="PlaceholderColor"
-                                        Value="Black" />
+                                <Setter Property="TextColor" Value="Black" />
+                                <Setter Property="PlaceholderColor" Value="Black" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -33,30 +33,56 @@
             </Setter>
         </Style>
     </ContentPage.Resources>
-	<StackLayout VerticalOptions="CenterAndExpand" x:Name="stackLayout">
-		<lottie:AnimationView x:Name="animationView"
-							  HeightRequest="200"
-							  WidthRequest="200"
-			Animation="colorfullloader.json" 
-			Loop="True" 
-			AutoPlay="True"
-			VerticalOptions="Fill" 
-			HorizontalOptions="Fill" />
-		
-		<Entry x:Name="username"
+    <StackLayout x:Name="stackLayout" VerticalOptions="CenterAndExpand">
+        <lottie:AnimationView
+            x:Name="animationView"
+            Animation="keys_keychain_sign_in_locked.json"
+            AutoPlay="True"
+            HeightRequest="200"
+            HorizontalOptions="Fill"
+            Loop="True"
+            VerticalOptions="Fill"
+            WidthRequest="200" />
+
+        <Entry
+            x:Name="username"
             Keyboard="Plain"
-            Visual="Material"
-            Placeholder="Username or email" />
-		<Label x:Name="usernameErrors" PropertyChanged="UserNameErrors_PropertyChanged"/>
-		
-		<Entry x:Name="password"
+            Placeholder="Username or email"
+            Visual="Material" />
+        <Label x:Name="usernameErrors" PropertyChanged="UserNameErrors_PropertyChanged" />
+
+        <Entry
+            x:Name="password"
             IsPassword="True"
-            Visual="Material"
-            Placeholder="Password" />
-		<Label x:Name="passwordErrors" PropertyChanged="PasswordErrors_PropertyChanged" />
-		
-		<Button x:Name="loginButton"
+            Placeholder="Password"
+            Visual="Material" />
+        <Label x:Name="passwordErrors" PropertyChanged="PasswordErrors_PropertyChanged" />
+
+        <Button
+            x:Name="loginButton"
             Text="Login"
             Visual="Material" />
-	</StackLayout>
-</ContentPage>
+
+        <lottie:AnimationView
+            x:Name="failedAnimationView"
+            Animation="unapproved_cross.json"
+            HeightRequest="50"
+            HorizontalOptions="Fill"
+            IsVisible="False"
+            Loop="False"
+            OnFinish="failedAnimationView_OnFinish"
+            VerticalOptions="EndAndExpand"
+            WidthRequest="50"
+            Duration="20" />
+
+        <lottie:AnimationView
+            x:Name="processingAnimationView"
+            Animation="processing_information.json"
+            HeightRequest="100"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="False"
+            Loop="True"
+            VerticalOptions="FillAndExpand"
+            WidthRequest="100" />
+    </StackLayout>
+</rxui:ReactiveContentPage>

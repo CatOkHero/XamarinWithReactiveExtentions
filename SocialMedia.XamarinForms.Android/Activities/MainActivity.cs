@@ -2,6 +2,8 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using FFImageLoading.Forms;
+using FFImageLoading.Forms.Platform;
 using FFImageLoading.Svg.Forms;
 using Xamarin.Essentials;
 
@@ -20,6 +22,8 @@ namespace SocialMedia.XamarinForms.Droid
 
             base.OnCreate(savedInstanceState);
 
+            CarouselView.FormsPlugin.Android.CarouselViewRenderer.Init();
+            CachedImageRenderer.Init();
             SvgCachedImage.Init();
             Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

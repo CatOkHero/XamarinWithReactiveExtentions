@@ -2,6 +2,9 @@
 using ReactiveUI;
 using ReactiveUI.XamForms;
 using SocialMedia.XamarinForms.ViewModels;
+using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace SocialMedia.XamarinForms.Views
@@ -11,16 +14,23 @@ namespace SocialMedia.XamarinForms.Views
     {
         public MyTabbedPage()
         {
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
+            On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
             InitializeComponent();
-            ViewModel = new MyTabbedViewModel();
             this.WhenActivated(
                 disposables =>
                 {
                     this
-                        .OneWayBind(this.ViewModel, x => x.Child1, x => x.firstTab.ViewModel)
+                        .OneWayBind(this.ViewModel, x => x.HomeTab, x => x.firstTab.ViewModel)
                         .DisposeWith(disposables);
                     this
-                        .OneWayBind(this.ViewModel, x => x.Child2, x => x.secondTab.ViewModel)
+                        .OneWayBind(this.ViewModel, x => x.MessagesTab, x => x.secondTab.ViewModel)
+                        .DisposeWith(disposables);
+                    this
+                        .OneWayBind(this.ViewModel, x => x.NotificationsTab, x => x.thirdTab.ViewModel)
+                        .DisposeWith(disposables);
+                    this
+                        .OneWayBind(this.ViewModel, x => x.ProfileTab, x => x.fourthTab.ViewModel)
                         .DisposeWith(disposables);
                 });
         }

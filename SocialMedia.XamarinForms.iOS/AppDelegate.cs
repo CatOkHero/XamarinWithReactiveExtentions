@@ -1,4 +1,5 @@
-﻿using FFImageLoading.Svg.Forms;
+﻿using FFImageLoading.Forms.Platform;
+using FFImageLoading.Svg.Forms;
 using Foundation;
 using Lottie.Forms.iOS.Renderers;
 using UIKit;
@@ -22,6 +23,8 @@ namespace SocialMedia.XamarinForms.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             AnimationViewRenderer.Init();
+            CarouselView.FormsPlugin.iOS.CarouselViewRenderer.Init();
+            CachedImageRenderer.Init();
             SvgCachedImage.Init();
             Forms.SetFlags("StateTriggers_Experimental");
             Forms.Init();
@@ -31,4 +34,5 @@ namespace SocialMedia.XamarinForms.iOS
             return base.FinishedLaunching(app, options);
         }
     }
+
 }

@@ -11,12 +11,16 @@ namespace SocialMedia.XamarinForms.ViewModels
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
         }
 
-        public string UrlPathSegment => "Tabbed Page";
+        public string UrlPathSegment => "";
 
         public IScreen HostScreen { get; set; }
 
-        public MenuTabViewModel Child1 => new MenuTabViewModel();
+        public MessagesTabViewModel MessagesTab => new MessagesTabViewModel();
 
-        public ChatTabViewModel Child2 => new ChatTabViewModel();
+        public HomeTabViewModel HomeTab => new HomeTabViewModel();
+
+        public NotificationsTabViewModel NotificationsTab => new NotificationsTabViewModel();
+
+        public ProfileTabViewModel ProfileTab => new ProfileTabViewModel();
     }
 }

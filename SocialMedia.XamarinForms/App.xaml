@@ -1,14 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             xmlns:converters="clr-namespace:SocialMedia.XamarinForms.Converters"
-             x:Class="SocialMedia.XamarinForms.App">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application
+    x:Class="SocialMedia.XamarinForms.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:SocialMedia.XamarinForms.Converters"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
             <converters:BoolInvertedConverter x:Key="BoolInvertedConverter" />
+            <StyleSheet Source="/Styles/Profile.css" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
